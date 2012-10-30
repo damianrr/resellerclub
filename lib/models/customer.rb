@@ -1,12 +1,17 @@
 require "rubygems"
 require "typhoeus"
 require "open-uri"
+require "json"
 require "pry"
+
+# class CustomerNotFoundError < StandardError; end
 
 class Customer
   @@url = "https://httpapi.com/api/customers/"
   @@url_add = "signup.json"
   @@url_update = "modify.json"
+  @@url_details_by_username = "details.json"
+  @@url_details_by_id = "details-by-id.json"
   @@auth_userid = "430162"
   @@auth_password = "myresellerpass"
   class << self
@@ -16,6 +21,10 @@ class Customer
             @@url_add
           when "update"
             @@url_update
+          when "get_by_username"
+            @@url_details_by_username
+          when "get_by_id"
+            @@url_details_by_id
           end
       params.delete_if {|k,v| v == ""}
       url = @@url + m + "?"
@@ -100,7 +109,48 @@ class Customer
       else
         raise "Validation failed."
       end
+    end
 
+    def get_by_username(username)
+      values = {
+        "auth_userid" => @@auth_userid,
+        "auth_password" => @@auth_password,
+        "username" => username.to_s,         # Should be an email address. Required
+      }
+      if validate(values)
+        url = construct_url(values, "get_by_username")
+        response = Typhoeus::Request.get(url)
+        case response.code
+        when 200
+          return JSON.parse(response.body)
+        when 500
+          error = JSON.parse(response.body)
+          raise error["message"]
+        end
+      else
+        raise "Validation failed."
+      end
+    end
+
+    def get_by_id(customer_id)
+      values = {
+        "auth_userid" => @@auth_userid,
+        "auth_password" => @@auth_password,
+        "customer_id" => customer_id.to_s,
+      }
+      if validate(values)
+        url = construct_url(values, "get_by_id")
+        response = Typhoeus::Request.get(url)
+        case response.code
+        when 200
+          return JSON.parse(response.body)
+        when 500
+          error = JSON.parse(response.body)
+          raise error["message"]
+        end
+      else
+        raise "Validation failed."
+      end
     end
   end
 end
