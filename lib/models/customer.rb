@@ -7,12 +7,15 @@ require "pry"
 # class CustomerNotFoundError < StandardError; end
 
 class Customer
-  @@url = "https://httpapi.com/api/customers/"
+  @@url = "https://test.httpapi.com/api/customers/"
   @@url_add = "signup.json"
   @@url_update = "modify.json"
   @@url_details_by_username = "details.json"
   @@url_details_by_id = "details-by-id.json"
-  @@auth_userid = "430162"
+  @@change_password = "change-password.json"
+  @@generate_password = "temp-password.json"
+  @@search = "search.json"
+  @@auth_userid = "123456"
   @@auth_password = "myresellerpass"
   class << self
     def construct_url(params, method)
@@ -25,6 +28,12 @@ class Customer
             @@url_details_by_username
           when "get_by_id"
             @@url_details_by_id
+          when "change_password"
+            @@change_password
+          when "generate_password"
+            @@generate_password
+          when "search"
+            @@search
           end
       params.delete_if {|k,v| v == ""}
       url = @@url + m + "?"
@@ -68,7 +77,7 @@ class Customer
       values = values.merge!(params)
       if validate(values)
         url = construct_url(values, "create")
-        # Typhoeus::Request.post(url)
+        Typhoeus::Request.post(url)
       else
         raise "Validation failed."
       end
@@ -150,6 +159,86 @@ class Customer
         end
       else
         raise "Validation failed."
+      end
+    end
+
+    def change_password(customer_id, password)
+      values = {
+        "auth_userid" => @@auth_userid,
+        "auth_password" => @@auth_password,
+        "customer_id" => customer_id.to_s,
+        "new_passwd" => password.to_s,
+      }
+      if validate(values)
+        url = construct_url(values, "change_password")
+        response = Typhoeus::Request.post(url)
+        case response.code
+        when 200
+          if response.body == "true"
+            return true
+          else
+            return false
+          end
+        when 500
+          error = JSON.parse(response.body)
+          raise error["message"]
+        end
+      else
+        raise "Validation failed."
+      end
+    end
+
+    def generate_password(customer_id)
+      values = {
+        "auth_userid" => @@auth_userid,
+        "auth_password" => @@auth_password,
+        "customer_id" => customer_id.to_s,
+      }
+      if validate(values)
+        url = construct_url(values, "generate_password")
+        response = Typhoeus::Request.get(url)
+        case response.code
+        when 200
+          return response.body
+        when 500
+          error = JSON.parse(response.body)
+          raise error["message"]
+        end
+      else
+        raise "Validation failed."
+      end
+    end
+
+    def search(params={})
+      values = {
+        "auth_userid" => @@auth_userid,
+        "auth_password" => @@auth_password,
+        "no_of_records" => "50",
+        "page_no" => "1",
+        "customer_id" => "",
+        "reseller_id" => "",
+        "username" => "",
+        "name" => "",
+        "company" => "",
+        "city" => "",
+        "state" => "",
+        "status" => "",
+        "creation_date_start" => "",
+        "creation_date_end" => "",
+        "total_receipt_start" => "",
+        "total_receipt_end" => "",
+      }
+      values = values.merge!(params)
+      if validate(values)
+        url = construct_url(values, "search")
+        response = Typhoeus::Request.get(url)
+        case response.code
+        when 200
+          return JSON.parse(response.body)
+        when 500
+          error = JSON.parse(response.body)
+          raise error["message"]
+        end
       end
     end
   end
