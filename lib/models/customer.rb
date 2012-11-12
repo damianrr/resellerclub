@@ -4,8 +4,6 @@ require "open-uri"
 require "json"
 require "pry"
 
-# class CustomerNotFoundError < StandardError; end
-
 class Customer
   @@url = "https://test.httpapi.com/api/customers/"
   @@url_add = "signup.json"
@@ -15,6 +13,7 @@ class Customer
   @@change_password = "change-password.json"
   @@generate_password = "temp-password.json"
   @@search = "search.json"
+  @@delete = "delete.json"
   @@auth_userid = "123456"
   @@auth_password = "myresellerpass"
   class << self
@@ -34,6 +33,8 @@ class Customer
             @@generate_password
           when "search"
             @@search
+          when "delete"
+            @@delete
           end
       params.delete_if {|k,v| v == ""}
       url = @@url + m + "?"
@@ -46,6 +47,14 @@ class Customer
 
     def validate(params)
       true
+    end
+
+    def true_or_false(str)
+      if str == "true"
+        return true
+      else
+        return false
+      end
     end
 
     def add(params={})
@@ -174,11 +183,7 @@ class Customer
         response = Typhoeus::Request.post(url)
         case response.code
         when 200
-          if response.body == "true"
-            return true
-          else
-            return false
-          end
+          true_or_false(response.body)
         when 500
           error = JSON.parse(response.body)
           raise error["message"]
@@ -210,6 +215,7 @@ class Customer
     end
 
     def search(params={})
+      # Example of use: Customer.search("name" => "Tyler")
       values = {
         "auth_userid" => @@auth_userid,
         "auth_password" => @@auth_password,
@@ -239,6 +245,28 @@ class Customer
           error = JSON.parse(response.body)
           raise error["message"]
         end
+      end
+    end
+
+    def delete(customer_id)
+      # Example of use: Customer.delete("8961835")
+      values = {
+        "auth_userid" => @@auth_userid,
+        "auth_password" => @@auth_password,
+        "customer_id" => customer_id.to_s,
+      }
+      if validate(values)
+        url = construct_url(values, "delete")
+        response = Typhoeus::Request.get(url)
+        case response.code
+        when 200
+          return true_or_false(response.body)
+        when 500
+          error = JSON.parse(response.body)
+          raise error["message"]
+        end
+      else
+        raise "Validation failed."
       end
     end
   end
