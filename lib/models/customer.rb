@@ -31,13 +31,6 @@ class Customer
       "mobile_cc" => "",        # Mobile country code.
     }
     return "create", values.merge!(params)
-
-    # if validate(values)
-    #   url = construct_url(values, "create")
-    #   Typhoeus::Request.post(url)
-    # else
-    #   raise "Validation failed."
-    # end
   end
 
   def update(params={})
@@ -66,13 +59,7 @@ class Customer
       "mobile_cc" => "",        # Mobile country code.
       "customer_id" => "",      # Required
     }
-    values = values.merge!(params)
-    if validate(values)
-      url = construct_url(values, "update")
-      Typhoeus::Request.post(url)
-    else
-      raise "Validation failed."
-    end
+    return "update", values.merge!(params)
   end
 
   def get_by_username(params) # params should be {:username => "...."}

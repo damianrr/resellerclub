@@ -21,7 +21,6 @@ module DecorateResellerClubModels
 
 end
 
-
 class CustomerDecorator < RubyDecorator
 
   @@base_url = "https://test.httpapi.com/api/customers/"
@@ -69,33 +68,3 @@ class CustomerDecorator < RubyDecorator
   end
 
 end
-
-
-# class TestThisStuffs
-
-#   extend DecorateResellerClubModels
-
-#   +CustomerDecorator
-#   def testdec(params)
-#     values = {
-#       "no_of_records" => "50",
-#       "page_no" => "1",
-#       "customer_id" => "",
-#       "reseller_id" => "",
-#       "username" => "",
-#       "name" => "",
-#       "company" => "",
-#       "city" => "",
-#       "state" => "",
-#       "status" => "",
-#       "creation_date_start" => "",
-#       "creation_date_end" => "",
-#       "total_receipt_start" => "",
-#       "total_receipt_end" => "",
-#     }
-#     return "testdec", values
-#   end
-
-# end
-
-# TestThisStuffs.testdec({"username" => "damianrr"})
