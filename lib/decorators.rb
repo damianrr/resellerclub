@@ -21,24 +21,30 @@ module DecorateResellerClubModels
 
 end
 
-class CustomerDecorator < RubyDecorator
 
-  @@base_url = "https://test.httpapi.com/api/customers/"
-  @@action_urls = {"create" => "signup.json", "update" => "modify.json", "get_by_username" => "details.json", "get_by_id" => "details-by-id.json", "change_password" => "change-password.json", "generate_password" => "temp-password.json", "search" => "search.json", "delete" => "delete.json"}
+class ResellerClubDecorators < RubyDecorator
   @@auth_userid = "123456"
   @@auth_password = "myresellerpass"
+  @@base_url = ""
+  @@action_urls = ""
 
   def validate(v)
     true
   end
 
-
   def true_false_or_text(str)
     if str == "true"
-      return true
+      return {"response" => true}.to_json
     elsif str == "false"
-      return false
+      return {"response" => false}.to_json
+    elsif str.to_i.to_s == str
+      return {"code" => str}
     else
+      begin
+        JSON.parse(str)
+      rescue
+        return {"response" => str}.to_json
+      end
       return str
     end
   end
@@ -54,17 +60,32 @@ class CustomerDecorator < RubyDecorator
   end
 
   def call(this, params, &blk)
-    method, values = this.call(params, &blk)
+    fname, method, values, response = this.call(params, &blk)
     values["auth_userid"] = @@auth_userid
     values["auth_password"] = @@auth_password
-    values = values.merge!(params)
     if validate(values)
-      url = construct_url(values, "create")
-      binding.pry
-      # Typhoeus::Request.post(url)
+      url = construct_url(values, fname)
+      if response
+        response = Typhoeus::Request.send method, url
+        case response.code
+        when 200
+          return JSON.parse(true_false_or_text(response.body))
+        when 500
+          error = JSON.parse(true_false_or_text(response.body))
+          raise error["message"]
+        end
+      else
+        Typhoeus::Request.send method, url
+      end
     else
       raise "Validation failed."
     end
   end
 
+
+end
+
+class CustomerDecorator < ResellerClubDecorators
+  @@base_url = "https://test.httpapi.com/api/customers/"
+  @@action_urls = {"create" => "signup.json", "update" => "modify.json", "get_by_username" => "details.json", "get_by_id" => "details-by-id.json", "change_password" => "change-password.json", "generate_password" => "temp-password.json", "search" => "search.json", "delete" => "delete.json", "generate_token" => "generate-token.json", "auth_token" => "authenticate-token.json"}
 end

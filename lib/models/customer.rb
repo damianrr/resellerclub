@@ -1,6 +1,5 @@
 require_relative '../decorators.rb'
 
-
 class Customer
 
   extend DecorateResellerClubModels
@@ -30,9 +29,10 @@ class Customer
       "mobile" => "",
       "mobile_cc" => "",        # Mobile country code.
     }
-    return "create", values.merge!(params)
+    return "create", "post", values.merge!(params), true
   end
 
+  +CustomerDecorator
   def update(params={})
     # Example of use: Customer.update({"username" => "tyler@google.com","passwd" => "tambi5en5","name" => "Tyler","address_line_1" => "my casa", "company" => "my company.corb", "city" => "Lisa", "state" => "CH", "country" => "CU", "zipcode" => "11155", "phone_cc" => "53", "phone" => "531531","customer_id"=> "8940466"})
     # Note: we cannot only pass the values we want to change, but all.
@@ -59,88 +59,43 @@ class Customer
       "mobile_cc" => "",        # Mobile country code.
       "customer_id" => "",      # Required
     }
-    return "update", values.merge!(params)
+    return "update", "post", values.merge!(params), true
   end
 
-  def get_by_username(params) # params should be {:username => "...."}
+  +CustomerDecorator
+  def get_by_username(customer_id)
+    # Example of use: Customer.get_by_username("damian@google.com")
     values = {
-      "username" => ""         # Should be an email address. Required
+      "username" => customer_id.to_s      # Should be an email address. Required
     }
-    values = values.merge!(params)
-    if validate(values)
-      url = construct_url(values, "get_by_username")
-      response = Typhoeus::Request.get(url)
-      case response.code
-      when 200
-        return JSON.parse(response.body)
-      when 500
-        error = JSON.parse(response.body)
-        raise error["message"]
-      end
-    else
-      raise "Validation failed."
-    end
+    return "get_by_username", "get", values, true
   end
 
-  def get_by_id(params)  # params should be {:customer_id => "...."}
-    values = {
-      "customer_id" => "",
-    }
-    values = values.merge!(params)
-    if validate(values)
-      url = construct_url(values, "get_by_id")
-      response = Typhoeus::Request.get(url)
-      case response.code
-      when 200
-        return JSON.parse(response.body)
-      when 500
-        error = JSON.parse(response.body)
-        raise error["message"]
-      end
-    else
-      raise "Validation failed."
-    end
-  end
-
-  def change_password(customer_id, password)
+  +CustomerDecorator
+  def get_by_id(customer_id)  # params should be {:customer_id => "...."}
+    # Example of use: Customer.get_by_id("8989245")
     values = {
       "customer_id" => customer_id.to_s,
-      "new_passwd" => password.to_s,
     }
-    if validate(values)
-      url = construct_url(values, "change_password")
-      response = Typhoeus::Request.post(url)
-      case response.code
-      when 200
-        true_or_false(response.body)
-      when 500
-        error = JSON.parse(response.body)
-        raise error["message"]
-      end
-    else
-      raise "Validation failed."
-    end
+    return "get_by_id", "get", values, true
   end
 
+  +CustomerDecorator
+  def change_password(params={})
+    # Example of use: Customer.change_password("customer_id" => "8989245", "new_passwd" => "newpasswd1")
+    return "change_password", "get", params, true
+  end
+
+  +CustomerDecorator
   def generate_password(customer_id)
+    # Example of use: Customer.generate_password("8989245")
     values = {
       "customer_id" => customer_id.to_s,
     }
-    if validate(values)
-      url = construct_url(values, "generate_password")
-      response = Typhoeus::Request.get(url)
-      case response.code
-      when 200
-        return response.body
-      when 500
-        error = JSON.parse(response.body)
-        raise error["message"]
-      end
-    else
-      raise "Validation failed."
-    end
+    return "generate_password", "get", values, true
   end
 
+  +CustomerDecorator
   def search(params={})
     # Example of use: Customer.search("name" => "Tyler")
     values = {
@@ -159,42 +114,35 @@ class Customer
       "total_receipt_start" => "",
       "total_receipt_end" => "",
     }
-    values = values.merge!(params)
-    if validate(values)
-      url = construct_url(values, "search")
-      response = Typhoeus::Request.get(url)
-      case response.code
-      when 200
-        return JSON.parse(response.body)
-      when 500
-        error = JSON.parse(response.body)
-        raise error["message"]
-      end
-    end
+    return "search", "get", values.merge!(params), true
   end
 
+  +CustomerDecorator
   def delete(customer_id)
     # Example of use: Customer.delete("8961835")
     values = {
       "customer_id" => customer_id.to_s,
     }
-    if validate(values)
-      url = construct_url(values, "delete")
-      response = Typhoeus::Request.get(url)
-      case response.code
-      when 200
-        return true_or_false(response.body)
-      when 500
-        error = JSON.parse(response.body)
-        raise error["message"]
-      end
-    else
-      raise "Validation failed."
-    end
+    return "delete", "post", values, true
   end
 
-  def self.validate(params)
-    true
+  +CustomerDecorator
+  def generate_token(params={})
+    # Example of use: Customer.generate_token("username" => "damian@google.com", "passwd" => "PRnHZBEL", "ip" => "200.55.139.34")
+    values = {
+      "username" => "",
+      "passwd" => "",
+      "ip" => "",
+    }
+    return "generate_token", "get", values.merge!(params), true
   end
 
+  +CustomerDecorator
+  def authenticate_token(token)
+    # Example of use: Customer.authenticate_token("IQJMlIJZ")
+    values = {
+      "token" => token.to_s,    # Required
+    }
+    return "auth_token", "get", values, true
+  end
 end
