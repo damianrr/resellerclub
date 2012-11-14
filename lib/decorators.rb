@@ -61,8 +61,10 @@ class ResellerClubDecorators < RubyDecorator
 
   def call(this, params, &blk)
     fname, method, values, response = this.call(params, &blk)
-    values["auth_userid"] = @@auth_userid
-    values["auth_password"] = @@auth_password
+    if not values.keys.include? "auth_userid" and not values.keys.include? "auth_password"
+      values["auth_userid"] = @@auth_userid
+      values["auth_password"] = @@auth_password
+    end
     if validate(values)
       url = construct_url(values, fname)
       if response
@@ -88,4 +90,10 @@ end
 class CustomerDecorator < ResellerClubDecorators
   @@base_url = "https://test.httpapi.com/api/customers/"
   @@action_urls = {"create" => "signup.json", "update" => "modify.json", "get_by_username" => "details.json", "get_by_id" => "details-by-id.json", "change_password" => "change-password.json", "generate_password" => "temp-password.json", "search" => "search.json", "delete" => "delete.json", "generate_token" => "generate-token.json", "auth_token" => "authenticate-token.json"}
+end
+
+
+class ResellerDecorator < ResellerClubDecorators
+  @@base_url = "https://test.httpapi.com/api/resellers/"
+  @@action_urls = {"create" => "signup.json", "update" => "modify-details.json", "details" => "details.json", "generate_password" => "temp-password.json", "search" => "search.json", "generate_token" => "generate-token.json", "auth_token" => "authenticate-token.json", "promo_prices" => "promo-details.json"}
 end
