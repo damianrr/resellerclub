@@ -121,7 +121,7 @@ class Reseller
   end
 
   +ResellerDecorator
-  def authenticate_token(params)
+  def authenticate_token(params={})
     # Example of use: Reseller.authenticate_token("auth_userid" => "433154", "auth_password" => "lV6UAIxi", "token" => "token")
     values = {
       "auth_userid" => "",
@@ -142,5 +142,3 @@ class Reseller
     return "promo_prices", "get", values.merge!(params), true
   end
 end
-
-puts(Reseller.authenticate_token("auth_userid" => "433154", "auth_password" => "lV6UAIxi", "token" => "aaa"))
