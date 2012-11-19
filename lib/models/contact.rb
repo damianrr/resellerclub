@@ -1,31 +1,59 @@
 # -*- coding: utf-8 -*-
-require_relative '../decorators.rb'
+require_relative '../mixin.rb'
 
 class Contact
+  class << self
+    BASE_URL = "https://test.httpapi.com/api/contacts/"
 
-  extend DecorateResellerClubModels
+    extend ResellerClubMethods
 
-  def
+    [{"values" => {"lang_pref" => "en"}, "method_name" => "add", "http_method" => "post",
+       "validate" => lambda { |values| true }, "url" => "add.json"},
+     {"values" => {"lang_pref" => "en"}, "method_name" => "update", "http_method" => "post",
+       "validate" => lambda { |values| true }, "url" => "modify.json"},
+     {"values" => {"contact_id" => ""}, "method_name" => "details", "http_method" => "get",
+       "validate" => lambda { |values| true }, "url" => "details.json"},
+     {"values" => {}, "method_name" => "get_default", "http_method" => "get",
+       "validate" => lambda { |values| true }, "url" => "default.json"},
+     {"values" => {"no_of_records" => "50","page_no" => "1"}, "method_name" => "search", "http_method" => "get",
+       "validate" => lambda { |values| true }, "url" => "search.json"},
+     {"values" => {"contact_id" => ""}, "method_name" => "delete", "http_method" => "post",
+       "validate" => lambda { |values| true }, "url" => "delete.json"},
+     {"values" => {}, "method_name" => "set_extra_details", "http_method" => "post",
+       "validate" => lambda { |values| true }, "url" => "set-details.json"},
+     {"values" => {"customer_id" => ""}, "method_name" => "sponsors", "http_method" => "get",
+       "validate" => lambda { |values| true }, "url" => "sponsors.json"},
+     {"values" => {}, "method_name" => "add_sponsor", "http_method" => "get",
+       "validate" => lambda { |values| true }, "url" => "coop/add-sponsor.json"},
+     {"values" => nil, "method_name" => "registrant_agreement", "http_method" => "get",
+       "validate" => lambda { |values| true }, "url" => "dotca/registrantagreement.json"},
+     {"values" => {}, "method_name" => "validates_contact_against_criteria", "http_method" => "get",
+       "validate" => lambda { |values| true }, "url" => "validate-registrant.json"},
+    ].each { |p| build_method p }
+
   end
-values = {
-"auth-userid" => "", # Integer Authentication Parameter
-"auth-password" => "", # String Required Authentication Parameter
-"name" => "", # String Required Name of the contact.
-"company" => "", # String Required Name of the company Note Optional in case of EuContact
-"email" => "", # String Required Email address of the contact.
-"address-line-1" => "", # String Required First line of address of the contact..
-"city" => "", # String Required Name of the City.
-"country" => "", # String Required Country Code as per ISO 3166-1 alpha-2.
-"zipcode" => "", # String Required ZIP code.
-"phone-cc" => "", # String Required Telephone number country code.
-"phone" => "", # String Required Telephone number
-"customer-id" => "", # Integer Required The customer under whom you want to create the contact.
-"type" => "", # String Required The contact type. This can take following values:Contact, CoopContact, UkContact, EuContact, CnContact, CoContact, CaContact, DeContact, EsContact
-"address-line-2" => "", # String Optional Second line of address of the contact.
-"address-line-3" => "", # String Optional Third line of address of the contact..
-"state" => "", # String Optional Name of the state. For EsContact contact type, mention one of the following provinces: Albacete, Alicante, Almeria, Araba, Asturias, Avila, Badajoz, Barcelona, Bizkaia, Burgos, Caceres, Cadiz, Cantabria, Castellon, Ceuta, Ciudad Real, Cordoba, Coruña, A, Cuenca, Gipuzkoa, Girona, Granada, Guadalajara, Huelva, Huesca, Illes Balears, Jaen, Leon, Lleida, Lugo, Madrid, Malaga, Melilla, Murcia, Navarra, Ourense, Palencia, Palmas, Las, Pontevedra, Rioja, La, Salamanca, Santa Cruz de Tenerife, Segovia, Sevilla, Soria, Tarragona, Teruel, Toledo, Valencia, Valladolid, Zamora, Zaragoza
-"fax-cc" => "", # String Optional Fax number country code.
-"fax" => "", # String Optional Fax number.
-}
 
 end
+
+# puts(Contact.add({"name" => "Damian", "company" => "Home", "email" => "home@damian.com", "address-line-1" => "196 lisa", "city" => "havana", "country" => "US", "zipcode" => "11500", "phone-cc" => "53", "phone" => "535353", "customer-id" => "8989245", "type" => "Contact"}))
+
+# puts(Contact.update({"name" => "Tomates Real Tomates", "company" => "my company", "email" => "tomates@whatsup.com", "address-line-1" => "196 lisa", "city" => "havana", "country" => "CU", "zipcode" => "11500", "phone-cc" => "53", "phone" => "535353", "customer-id" => "8989245", "type" => "Contact", "contact-id" => "25049249"}))
+
+# puts(Contact.details("25050309"))
+
+# puts(Contact.search({"name" => "Verdaderos Tomates", "customer-id" => "8989245"}))
+
+# puts(Contact.get_default({"type" => "Contact", "customer-id" => "8989245"}))
+
+# puts(Contact.delete("25049249"))
+
+# puts(Contact.set_extra_details({"contact_id" => "25050309", "product-key" => "dotca", "attr-name1" => "sponsor1", "attr-value1" => "-200"}))
+
+# puts(Contact.sponsors("8989245"))
+
+# puts(Contact.add_sponsor({"name" => "Mi esponsor", "company" => "la de los sponsors", "email" => "esponsor@sponsors.com", "address-line-1" => "calle sponsor", "city" => "sponsor", "country" => "CU", "zipcode" => "11500", "phone-cc" => "53", "phone" => "531531", "customer-id" => "8989245"}))
+
+# puts(Contact.registrant_agreement())
+
+# OjO: Esta func normalmente acepta varios parametros con el nombre: eligibility-criteria, debido a que se utilizan hashes para almacenar estos parametros la func debera ser utilizada de la siguiente forma (O sea solo una llave conteniendo un array de las variables opciones):
+# puts(Contact.validates_contact_against_criteria({"contact_id" => "25050309", "eligibility-criteria" => ["APP_PREF_NEXUS", "Tomates"]}))
