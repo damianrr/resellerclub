@@ -1,15 +1,5 @@
 require_relative '../mixin.rb'
 
-# Example of use: Customer.add({"username" => "tyler@google.com","passwd" => "tambi5en5","name" => "Tyler","address_line_1" => "56 st pensilvania", "company" => "Transmeta", "city" => "Lisa", "state" => "CH", "country" => "CU", "zipcode" => "11155", "phone_cc" => "53", "phone" => "531531"})
-# Example of use: Customer.update({"username" => "tyler@google.com","passwd" => "tambi5en5","name" => "Tyler","address_line_1" => "my casa", "company" => "my company.corb", "city" => "Lisa", "state" => "CH", "country" => "CU", "zipcode" => "11155", "phone_cc" => "53", "phone" => "531531","customer_id"=> "8940466"})
-# Example of use: Customer.get_by_username("damian@google.com")
-# Example of use: Customer.change_password("customer_id" => "8989245", "new_passwd" => "newpasswd1")
-# Example of use: Customer.generate_password("8989245")
-# Example of use: Customer.search("name" => "Tyler")
-# Example of use: Customer.delete("8961835")
-# Example of use: Customer.generate_token("username" => "damian@google.com", "passwd" => "PRnHZBEL", "ip" => "200.55.139.34")
-# Example of use: Customer.authenticate_token("IQJMlIJZ")
-
 class Customer
   class << self
     BASE_URL = "https://test.httpapi.com/api/customers/"
