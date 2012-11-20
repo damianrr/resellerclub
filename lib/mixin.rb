@@ -45,7 +45,7 @@ module ResellerClubMethods
   def build_method(data)
     construct_url_bind = method(:construct_url)
     true_false_or_text_bind = method(:true_false_or_text)
-    define_method data["method_name"] do |params=nil|
+    define_method data["method_name"] do |params=nil, mock=false|
       if data["values"].nil?
         data["values"] = {}
       elsif data["values"].keys.count == 1 and (data["values"].values)[0] == ""
@@ -59,7 +59,9 @@ module ResellerClubMethods
       end
       if data["validate"].call(data["values"])
         url = construct_url_bind.call(data["values"], data["url"])
-        puts url
+        if mock
+          return url
+        end
         if data["silent"]
           Typhoeus::Request.send data["http_method"], url
         else
