@@ -66,8 +66,11 @@ module ResellerClubMethods
       data["method_name"] = generate_method_name_from_url(data["url"])
     end
     define_method data["method_name"] do |params=nil|
-      mock = params.delete("test_mock")
-      mock ||= params.delete(:test_mock)
+      mock = false
+      if params.kind_of? Hash
+        mock = params.delete("test_mock")
+        mock ||= params.delete(:test_mock)
+      end
       if data["values"].nil?
         data["values"] = {}
       elsif data["values"].keys.count == 1 and (data["values"].values)[0] == ""
