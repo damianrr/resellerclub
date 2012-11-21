@@ -8,7 +8,7 @@ class Order
     extend ResellerClubMethods
 
     [{"values" => {}, "http_method" => "post", "validate" => lambda {|v| true}, "url" => "suspend.json"},
-     {"values" => {"order_id" => ""}, "http_method" => "post", "validate" => lambda {|v| true}, "url" => "idn-unsuspend.json"},
+     {"values" => {"order_id" => ""}, "http_method" => "post", "validate" => lambda {|v| true}, "url" => "unsuspend.json"},
     ].each { |p| build_method p }
 
   end

@@ -7,8 +7,8 @@ class Contact
 
     extend ResellerClubMethods
 
-    [{"values" => {"lang_pref" => "en"}, "http_method" => "post",  "validate" => lambda {|v| true}, "url" => "add.json"},
-     {"values" => {"lang_pref" => "en"}, "http_method" => "post", "validate" => lambda {|v| true}, "url" => "modify.json"},
+    [{"values" => {}, "http_method" => "post",  "validate" => lambda {|v| true}, "url" => "add.json"},
+     {"values" => {}, "http_method" => "post", "validate" => lambda {|v| true}, "url" => "modify.json"},
      {"values" => {"contact_id" => ""}, "http_method" => "get", "validate" => lambda {|v| true}, "url" => "details.json"},
      {"values" => {}, "http_method" => "get", "validate" => lambda {|v| true}, "url" => "default.json"},
      {"values" => {"no_of_records" => "50","page_no" => "1"}, "http_method" => "get", "validate" => lambda {|v| true}, "url" => "search.json"},
