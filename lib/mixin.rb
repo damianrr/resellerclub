@@ -2,7 +2,6 @@ require "rubygems"
 require "typhoeus"
 require "open-uri"
 require "json"
-require "pry"
 
 module ResellerClubMethods
 
