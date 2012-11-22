@@ -34,26 +34,3 @@ class Contact
   end
 
 end
-
-# puts(Contact.add({"name" => "Damian", "company" => "Home", "email" => "home@damian.com", "address-line-1" => "196 lisa", "city" => "havana", "country" => "US", "zipcode" => "11500", "phone-cc" => "53", "phone" => "535353", "customer-id" => "8989245", "type" => "Contact"}))
-
-# puts(Contact.update({"name" => "Tomates Real Tomates", "company" => "my company", "email" => "tomates@whatsup.com", "address-line-1" => "196 lisa", "city" => "havana", "country" => "CU", "zipcode" => "11500", "phone-cc" => "53", "phone" => "535353", "customer-id" => "8989245", "type" => "Contact", "contact-id" => "25049249"}))
-
-# puts(Contact.details("25050309"))
-
-# puts(Contact.search({"name" => "Verdaderos Tomates", "customer-id" => "8989245"}))
-
-# puts(Contact.get_default({"type" => "Contact", "customer-id" => "8989245"}))
-
-# puts(Contact.delete("25049249"))
-
-# puts(Contact.set_extra_details({"contact_id" => "25050309", "product-key" => "dotca", "attr-name1" => "sponsor1", "attr-value1" => "-200"}))
-
-# puts(Contact.sponsors("8989245"))
-
-# puts(Contact.add_sponsor({"name" => "Mi esponsor", "company" => "la de los sponsors", "email" => "esponsor@sponsors.com", "address-line-1" => "calle sponsor", "city" => "sponsor", "country" => "CU", "zipcode" => "11500", "phone-cc" => "53", "phone" => "531531", "customer-id" => "8989245"}))
-
-# puts(Contact.registrant_agreement())
-
-# OjO: Esta func normalmente acepta varios parametros con el nombre: eligibility-criteria, debido a que se utilizan hashes para almacenar estos parametros la func debera ser utilizada de la siguiente forma (O sea solo una llave conteniendo un array de las variables opciones):
-# puts(Contact.validates_contact_against_criteria({"contact_id" => "25050309", "eligibility-criteria" => ["APP_PREF_NEXUS", "Tomates"]}))
