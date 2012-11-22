@@ -6,8 +6,21 @@ require "pry"
 
 module ResellerClubMethods
 
-  AUTH_USERID = "123456"
-  AUTH_PASSWORD = "myresellerpass"
+  @@auth_userid = "0"
+  @@auth_password = "password"
+
+  def self.authentication(userid = nil, password = nil)
+    @@auth_userid = userid
+    @@auth_password = password
+  end
+
+  def self.auth_userid
+    @@auth_userid
+  end
+
+  def self.auth_password
+    @@auth_password
+  end
 
   def true_false_or_text(str)
     if str == "true"
@@ -54,8 +67,8 @@ module ResellerClubMethods
         data["values"].merge!(params)
       end
       if not data["values"].keys.include? "auth_userid" and not data["values"].keys.include? "auth_password"
-        data["values"]["auth_userid"] = AUTH_USERID
-        data["values"]["auth_password"] = AUTH_PASSWORD
+        data["values"]["auth_userid"] = ResellerClubMethods::auth_userid
+        data["values"]["auth_password"] = ResellerClubMethods::auth_password
       end
       if data["validate"].call(data["values"])
         url = construct_url_bind.call(data["values"], data["url"])
