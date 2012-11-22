@@ -55,14 +55,27 @@ module ResellerClubMethods
     URI::encode(url)
   end
 
+  def generate_method_name_from_url(url)
+    url.split(".")[0].gsub("/", "_").gsub("-","_")
+  end
+
   def build_method(data)
     construct_url_bind = method(:construct_url)
     true_false_or_text_bind = method(:true_false_or_text)
-    define_method data["method_name"] do |params=nil, mock=false|
+    if data["method_name"].nil?
+      data["method_name"] = generate_method_name_from_url(data["url"])
+    end
+    define_method data["method_name"] do |params=nil|
+      mock = params.delete("test_mock")
+      mock ||= params.delete(:test_mock)
       if data["values"].nil?
         data["values"] = {}
       elsif data["values"].keys.count == 1 and (data["values"].values)[0] == ""
-        data["values"][(data["values"].keys)[0]] = params
+        if params.kind_of? Hash
+          data["values"].merge!(params)
+        elsif params.kind_of? String
+          data["values"][(data["values"].keys)[0]] = params
+        end
       else
         data["values"].merge!(params)
       end
