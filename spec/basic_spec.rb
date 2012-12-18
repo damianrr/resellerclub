@@ -67,6 +67,7 @@ describe 'Reseller Club Models' do
   context "Testing Customer Model" do
 
     before(:all) do
+      # WARNING! Change `123456` for a real Reseller id and `myresellerpass` for the password of that reseller account across all the file
       ResellerClubMethods::authentication("123456", "myresellerpass")
     end
 
