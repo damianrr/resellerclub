@@ -46,7 +46,7 @@ All methods, and parameters correspond to their counterparts in ResellerClub HTT
 
 Drawbacks:
 Once you set the authentication it cannot be changed, for example:
-- this will work with the newly setted up auth:
+This will work with the newly setted up auth:
 
 ResellerClub::authentication("5311", "pass")
 
@@ -54,7 +54,7 @@ ResellerClub::authentication("4354", "newpass")
 
 puts Customer.search("name" => "David", :test_mock => true)
 
-- this won't work:
+This won't work:
 ResellerClub::authentication("5311", "pass")
 
 puts Customer.search("name" => "David", :test_mock => true)
