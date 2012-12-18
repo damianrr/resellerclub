@@ -5,7 +5,7 @@ class Domain
   class << self
     BASE_URL = "https://test.httpapi.com/api/domains/"
 
-    extend ResellerClubMethods
+    extend ResellerClub
 
     [{"values" => {}, "http_method" => "get", "validate" => lambda {|v| true}, "url" => "available.json"},
      {"values" => {}, "http_method" => "get", "validate" => lambda {|v| true}, "url" => "idn-available.json"},

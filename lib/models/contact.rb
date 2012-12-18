@@ -5,7 +5,7 @@ class Contact
   class << self
     BASE_URL = "https://test.httpapi.com/api/contacts/"
 
-    extend ResellerClubMethods
+    extend ResellerClub
 
     [{"values" => {}, "http_method" => "post",  "validate" => lambda {|v| true}, "url" => "add.json"},
      {"values" => {}, "http_method" => "post", "validate" => lambda {|v| true}, "url" => "modify.json"},

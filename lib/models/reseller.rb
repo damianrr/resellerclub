@@ -4,7 +4,7 @@ class Reseller
   class << self
     BASE_URL = "https://test.httpapi.com/api/customers/"
 
-    extend ResellerClubMethods
+    extend ResellerClub
 
     [{"values" => {"lang_pref" => "en"}, "http_method" => "post","validate" => lambda {|v| true}, "url" => "signup.json"},
      {"values" => {"lang_pref" => "en"}, "http_method" => "post", "validate" => lambda {|v| true}, "url" => "modify-details.json"},

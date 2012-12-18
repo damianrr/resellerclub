@@ -29,7 +29,7 @@ Contact.details("25050309")
 
 Authentication:
 To use this gem one needs to provide a valid authentication and it's done this way:
-ResellerClubMethods::authentication("31531", "pass")
+ResellerClub::authentication("31531", "pass")
 where 31531 is a valid registered userid and pass the user's password
 
 Examples of Use:
@@ -42,14 +42,14 @@ Drawbacks:
 Once you set the authentication it cannot be changed, for example:
 - this will work with the newly setted up auth:
 
-ResellerClubMethods::authentication("5311", "pass")
-ResellerClubMethods::authentication("4354", "newpass")
+ResellerClub::authentication("5311", "pass")
+ResellerClub::authentication("4354", "newpass")
 puts Customer.search("name" => "David", :test_mock => true)
 
 - this won't work:
-ResellerClubMethods::authentication("5311", "pass")
+ResellerClub::authentication("5311", "pass")
 puts Customer.search("name" => "David", :test_mock => true)
-ResellerClubMethods::authentication("4354", "newpass")
+ResellerClub::authentication("4354", "newpass")
 puts Customer.search("name" => "David", :test_mock => true)
 
 Here both times it will be used the old authentication

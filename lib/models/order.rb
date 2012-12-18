@@ -5,7 +5,7 @@ class Order
   class << self
     BASE_URL = "https://test.httpapi.com/api/orders/"
 
-    extend ResellerClubMethods
+    extend ResellerClub
 
     [{"values" => {}, "http_method" => "post", "validate" => lambda {|v| true}, "url" => "suspend.json"},
      {"values" => {"order_id" => ""}, "http_method" => "post", "validate" => lambda {|v| true}, "url" => "unsuspend.json"},

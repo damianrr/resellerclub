@@ -68,7 +68,7 @@ describe 'Reseller Club Models' do
 
     before(:all) do
       # WARNING! Change `123456` for a real Reseller id and `myresellerpass` for the password of that reseller account across all the file
-      ResellerClubMethods::authentication("123456", "myresellerpass")
+      ResellerClub::authentication("123456", "myresellerpass")
     end
 
     it "should generate a correct url for signup" do
@@ -125,7 +125,7 @@ describe 'Reseller Club Models' do
   context "Testing Contact Model" do
 
     before(:all) do
-      ResellerClubMethods::authentication("123456", "myresellerpass")
+      ResellerClub::authentication("123456", "myresellerpass")
     end
 
     it "should generate a correct url for add" do
@@ -186,7 +186,7 @@ describe 'Reseller Club Models' do
 
   context "Testing Domain Model" do
     before(:all) do
-      ResellerClubMethods::authentication("123456", "myresellerpass")
+      ResellerClub::authentication("123456", "myresellerpass")
     end
 
     it "should generate a correct url for available" do
@@ -370,7 +370,7 @@ describe 'Reseller Club Models' do
   context "Testing Order Model" do
 
     before(:all) do
-      ResellerClubMethods::authentication("123456", "myresellerpass")
+      ResellerClub::authentication("123456", "myresellerpass")
     end
 
     it "should generate a correct url for suspend" do
@@ -388,7 +388,7 @@ describe 'Reseller Club Models' do
   # context "Testing Reseller Model" do
 
   #   before(:all) do
-  #     ResellerClubMethods::authentication("123456", "myresellerpass")
+  #     ResellerClub::authentication("123456", "myresellerpass")
   #   end
 
   #   it "should generate a correct url for add" do

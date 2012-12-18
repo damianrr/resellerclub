@@ -3,7 +3,7 @@ require "typhoeus"
 require "open-uri"
 require "json"
 
-module ResellerClubMethods
+module ResellerClub
 
   @@auth_userid = "0"
   @@auth_password = "password"
@@ -82,8 +82,8 @@ module ResellerClubMethods
         data["values"].merge!(params)
       end
       if not data["values"].keys.include? "auth_userid" and not data["values"].keys.include? "auth_password"
-        data["values"]["auth_userid"] = ResellerClubMethods::auth_userid
-        data["values"]["auth_password"] = ResellerClubMethods::auth_password
+        data["values"]["auth_userid"] = ResellerClub::auth_userid
+        data["values"]["auth_password"] = ResellerClub::auth_password
       end
       if data["validate"].call(data["values"])
         url = construct_url_bind.call(data["values"], data["url"])
