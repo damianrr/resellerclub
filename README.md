@@ -20,16 +20,22 @@ There are some arguments in some of the ResellerClub HTTP API that are mandatory
 There are 2 more parameter that the programmer will not need to provide an those are "auth_userid", and "auth_password" this will be taken from the initial configuration required to use this module. (Note that the real names of the parameters in the ResellerClub HTTP API are "auth-userid", "auth_password", either version will work with this gem)
 
 All methods take their parameters by name.
+
 All parameters need to be strings (no integers, no booleans, true is "true", and 513 is "513").
+
 All parameter names should be equivalent to those documented in the ResellerClub HTTP API Documentation (http://cp.onlyfordemo.net/kb/answer/744), aside from this there is an special parameter used in this gem for testing purposes that is named "test_mock", if "test_mock" => true is provided in the argument hash there will be no HTTP Request made to ResellerClub instead the method will return the corresponding address,
+
 If, excepting those arguments mentioned above, the method only take one remaining argument it can be passed directly. For example:
 This function can be invoked in either of this ways:
 Contact.details("contact_id" => "25050309")
+
 Contact.details("25050309")
 
 Authentication:
 To use this gem one needs to provide a valid authentication and it's done this way:
+
 ResellerClub::authentication("31531", "pass")
+
 where 31531 is a valid registered userid and pass the user's password
 
 Examples of Use:
@@ -43,13 +49,18 @@ Once you set the authentication it cannot be changed, for example:
 - this will work with the newly setted up auth:
 
 ResellerClub::authentication("5311", "pass")
+
 ResellerClub::authentication("4354", "newpass")
+
 puts Customer.search("name" => "David", :test_mock => true)
 
 - this won't work:
 ResellerClub::authentication("5311", "pass")
+
 puts Customer.search("name" => "David", :test_mock => true)
+
 ResellerClub::authentication("4354", "newpass")
+
 puts Customer.search("name" => "David", :test_mock => true)
 
 Here both times it will be used the old authentication
