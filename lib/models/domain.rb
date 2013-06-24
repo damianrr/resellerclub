@@ -16,7 +16,7 @@ class Domain
      # {"values" => {}, "http_method" => "post", "validate" => lambda {|v| true}, "url" => "eu/transfer.json"},
      # {"values" => {}, "http_method" => "post", "validate" => lambda {|v| true}, "url" => "trade.json"},
      {"values" => {}, "http_method" => "post", "validate" => lambda {|v| true}, "url" => "renew.json"},
-     {"values" => {"no-of-records" => "10", "page-no" => "1"}, "http_method" => "get", "validate" => lambda {|v| true}, "url" => "search.json"},
+     {"values" => {"no-of-records" => "10", "page_no" => "1"}, "http_method" => "get", "validate" => lambda {|v| true}, "url" => "search.json"},
      {"values" => {"customer_id" => ""}, "http_method" => "get","validate" => lambda {|v| true}, "url" => "customer-default-ns.json"},
      {"values" => {"domain_name" => ""}, "http_method" => "get", "validate" => lambda {|v| true}, "url" => "orderid.json"},
      {"values" => {}, "http_method" => "get", "validate" => lambda {|v| true}, "url" => "details.json"},
