@@ -6,6 +6,10 @@ require "json"
 module ResellerClub
 
   @@auth_userid = @@api_key = @@auth_password= ""
+  
+  def blank?(string)
+   string !~ /[^[:space:]]/
+  end
 
   def self.authentication(auth={})
     @@auth_userid = auth[:userid]
@@ -87,7 +91,7 @@ module ResellerClub
       end
       if  !data["values"].keys.include?("auth_userid") and (!data["values"].keys.include?("auth_password") || !data["values"].keys.include?("api_key"))
         data["values"]["auth_userid"] = ResellerClub::auth_userid
-        !ResellerClub::api_key.blank? ? (data["values"]["api_key"] = ResellerClub::api_key) : (data["values"]["auth_password"] = ResellerClub::auth_password)
+        !blank?(ResellerClub::api_key) ? (data["values"]["api_key"] = ResellerClub::api_key) : (data["values"]["auth_password"] = ResellerClub::auth_password)
       end
       if data["validate"].call(data["values"])
         url = construct_url_bind.call(data["values"], data["url"])
