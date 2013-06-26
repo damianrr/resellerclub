@@ -5,12 +5,12 @@ require "json"
 
 module ResellerClub
 
-  @@auth_userid = "0"
-  @@auth_password = "password"
+  @@auth_userid = @@api_key = @@auth_password= ""
 
-  def self.authentication(userid = nil, password = nil)
-    @@auth_userid = userid
-    @@auth_password = password
+  def self.authentication(auth={})
+    @@auth_userid = auth[:userid]
+    @@auth_password = auth[:password]
+    @@api_key = auth[:api_key]
   end
 
   def self.auth_userid
@@ -19,6 +19,10 @@ module ResellerClub
 
   def self.auth_password
     @@auth_password
+  end
+  
+  def self.api_key
+      @@api_key
   end
 
   def true_false_or_text(str)
@@ -81,9 +85,9 @@ module ResellerClub
       else
         data["values"].merge!(params)
       end
-      if not data["values"].keys.include? "auth_userid" and not data["values"].keys.include? "auth_password"
+      if  !data["values"].keys.include?("auth_userid") and (!data["values"].keys.include?("auth_password") || !data["values"].keys.include?("api_key"))
         data["values"]["auth_userid"] = ResellerClub::auth_userid
-        data["values"]["auth_password"] = ResellerClub::auth_password
+        !ResellerClub::api_key.blank? ? (data["values"]["api_key"] = ResellerClub::api_key) : (data["values"]["auth_password"] = ResellerClub::auth_password)
       end
       if data["validate"].call(data["values"])
         url = construct_url_bind.call(data["values"], data["url"])
