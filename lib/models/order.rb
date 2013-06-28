@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require_relative '../mixin.rb'
 
-class Order
+class ResellerClubOrder
   class << self
     BASE_URL = "https://test.httpapi.com/api/orders/"
 
