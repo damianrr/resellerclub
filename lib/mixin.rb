@@ -7,7 +7,7 @@ module ResellerClub
 
   @@auth_userid = @@api_key = @@auth_password= ""
   
-  def blank?(string)
+  def self.blank?(string)
    string !~ /[^[:space:]]/
   end
 
@@ -91,7 +91,7 @@ module ResellerClub
       end
       if  !data["values"].keys.include?("auth_userid") and (!data["values"].keys.include?("auth_password") || !data["values"].keys.include?("api_key"))
         data["values"]["auth_userid"] = ResellerClub::auth_userid
-        !blank?(ResellerClub::api_key) ? (data["values"]["api_key"] = ResellerClub::api_key) : (data["values"]["auth_password"] = ResellerClub::auth_password)
+        (not ResellerClub::blank?(ResellerClub::api_key)) ? (data["values"]["api_key"] = ResellerClub::api_key) : (data["values"]["auth_password"] = ResellerClub::auth_password)
       end
       if data["validate"].call(data["values"])
         url = construct_url_bind.call(data["values"], data["url"])

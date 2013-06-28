@@ -1,11 +1,11 @@
 Gem::Specification.new do |s|
   s.name        = 'resellerclub'
-  s.version     = '0.0.1'
+  s.version     = '1.0.0'
   s.date        = '2012-11-21'
   s.summary     = "A gem that implements partially ResellerClub API"
   s.description = "A gem that implements the sections Customer, Reseller, Contact and Domain from ResellerClub"
-  s.authors     = ["Damian Rodriguez"]
-  s.email       = 'damian@speedyrails.com'
+  s.authors     = ["Arun Kumar"]
+  s.email       = 'arunkumar@kreatio.com'
   s.add_dependency("typhoeus", ">= 0.3.3")
   s.add_dependency("json", ">= 0")
   s.add_dependency("rspec", ">= 2.11.0")
