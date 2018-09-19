@@ -1,5 +1,3 @@
-This gem it's unstable, unfinished and mostly in alpha stage. You have been warn!!!
-
 This gem implements some sections of the ResellerClub (http://www.resellerclub.com) API. This sections are specifically: Customers, Resellers, Contacts and Domains.
 
 Method names:
