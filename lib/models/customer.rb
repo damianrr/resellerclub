@@ -1,6 +1,6 @@
 require_relative '../mixin.rb'
 
-class Customer
+class ResellerClubCustomer
   class << self
     BASE_URL = "https://test.httpapi.com/api/customers/"
 
